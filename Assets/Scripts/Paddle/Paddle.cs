@@ -22,11 +22,17 @@ public class Paddle : MonoBehaviour
     }
     private void Update()
     {
+        //if the paddle "has" the ball, then you can press space to launch one from the starting platform.
+        //then it removes the ball from the paddle.
+        //uses the position of the launch platform to spawn the ball at.
         if (haveBall && Input.GetKeyDown(KeyCode.Space)){
             ball = Instantiate(ballPrefab, new Vector3(ballLaunchPad.transform.position.x, ballLaunchPad.transform.position.y, ballLaunchPad.transform.position.z),Quaternion.identity);
             haveBall = false;
         }
-
+        //movement for the paddle, left and right.
+        //i added this code to make the paddle increase its speed the longer you held the button because i
+        //dont like when the paddle is too slow to not be able to catch up to the ball.
+        //resets to its SpeedI (initial) after you let go of left or right and is capped at 25.0f.
         if (Input.GetKey(KeyCode.A))
         {
             transform.Translate(Vector3.left * Time.deltaTime * speed, Space.World);
@@ -47,9 +53,12 @@ public class Paddle : MonoBehaviour
         }
         speed = Mathf.Clamp(speed, 0.0f, 25.0f);
         #endregion
+        //paddle cannot leave the bounds of the screen where the ball bounces off of. roughly at 
+        //x= -5.5f and 5.5f
         var xPosition = Mathf.Clamp(transform.position.x, -5.5f, 5.5f);
         transform.position = new Vector3(xPosition, transform.position.y, transform.position.z);
     }
+    //helper method to be called by other objects so that the ball may be launched again.
     public void GiveBall()
     {
         haveBall = true;

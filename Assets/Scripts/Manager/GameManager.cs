@@ -22,7 +22,9 @@ public class GameManager : MonoBehaviour
     //Using const data defined above "Instantiate" new pieces to fill the view with
     private void Awake()
     {
-      
+      //Calculates the position of each peice using a counter variable at the top. 
+      //PIECE_COUNT helps determine how many peices to create, multiply the width of each of the peices by how many came before hand
+      //add the original position of the transform the peices recolor themselves.
         while (counter < PIECE_COUNT)
         {
             Instantiate(piecePrefab, new Vector3(
